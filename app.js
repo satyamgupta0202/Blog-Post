@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const app = express();
 
 const mongoURI =
-  "mongodb+srv://satyam1234:@nodenuts.h8bsy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+  "mongodb+srv://satyam1234:Akku1234@nodenuts.h8bsy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 mongoose
   .connect(mongoURI)
