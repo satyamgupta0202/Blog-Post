@@ -12,40 +12,8 @@ mongoose
   .then((res) => app.listen(3000))
   .catch((error) => console.log(error));
 // listen for requests
-
-// register view engine
+app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
-// app.set('views', 'myviews');
-
-// app.get("/add-blog", (req, res) => {
-//   const blog = new Blog({
-//     title: "name",
-//     snippet: "ok",
-//     body: "i dont know",
-//   });
-//   blog
-//     .save()
-//     .then((result) => res.send(result))
-//     .catch((err) => console.log(err));
-// });
-
-// app.get("/", (req, res) => {
-//   const blogs = [
-//     {
-//       title: "Yoshi finds eggs",
-//       snippet: "Lorem ipsum dolor sit amet consectetur",
-//     },
-//     {
-//       title: "Mario finds stars",
-//       snippet: "Lorem ipsum dolor sit amet consectetur",
-//     },
-//     {
-//       title: "How to defeat bowser",
-//       snippet: "Lorem ipsum dolor sit amet consectetur",
-//     },
-//   ];
-//   res.render("index", { title: "Home", blogs });
-// });
 
 app.get("/", (req, res) => {
   res.redirect("/blogs");
@@ -61,6 +29,28 @@ app.get("/blogs", (req, res) => {
       res.render("index", { title: "All Blogs", blogs: result });
     })
     .catch((err) => console.log(err));
+});
+
+app.post("/blogs", (req, res) => {
+  const blog = new Blog(req.body);
+  blog
+    .save()
+    .then((result) => {
+      res.redirect("/blogs");
+    })
+    .catch((err) => console.log(err));
+});
+
+app.get("/blogs/:id", (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  Blog.findById(id)
+    .then((result) => {
+      res.render("details", { blog: result, title: "Blog Details" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 app.get("/blogs/create", (req, res) => {
